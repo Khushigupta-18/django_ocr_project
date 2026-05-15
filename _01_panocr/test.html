@@ -1,0 +1,115 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>PAN OCR Tester</title>
+
+<style>
+body{
+font-family: Arial;
+margin:40px;
+}
+
+input,button{
+padding:8px;
+margin:5px;
+width:300px;
+}
+
+textarea{
+width:600px;
+height:120px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>PAN OCR API Test</h2>
+
+<input type="file" id="image"><br>
+<button onclick="runOCR()">Run OCR</button>
+
+<hr>
+
+PAN Number<br>
+<input type="text" id="pan"><br>
+
+Name<br>
+<input type="text" id="name"><br>
+
+Father Name<br>
+<input type="text" id="father"><br>
+
+DOB<br>
+<input type="text" id="dob"><br>
+
+Confidence Score<br>
+<input type="text" id="confidence"><br>
+
+Extracted Text<br>
+<textarea id="text"></textarea>
+
+<h3>API Response</h3>
+<pre id="result"></pre>
+
+<script>
+
+async function runOCR(){
+
+const file=document.getElementById("image").files[0];
+
+if(!file){
+alert("Upload image first");
+return;
+}
+
+const formData=new FormData();
+formData.append("image",file);
+
+try{
+
+const response=await fetch("http://127.0.0.1:8000/api/pan/upload/",{
+method:"POST",
+mode:"cors",
+body:formData
+});
+
+if(!response.ok){
+throw new Error("Server returned error");
+}
+
+const data=await response.json();
+
+console.log("API RESPONSE:",data);
+
+/* show JSON */
+
+document.getElementById("result").innerText =
+JSON.stringify(data,null,2);
+
+/* fill fields */
+
+document.getElementById("pan").value = data.pan_number || "";
+document.getElementById("name").value = data.name || "";
+document.getElementById("father").value = data.father_name || "";
+document.getElementById("dob").value = data.dob || "";
+document.getElementById("confidence").value = data.confidence_score || "";
+document.getElementById("text").value = data.extracted_text || "";
+
+}
+catch(error){
+
+console.error("ERROR:",error);
+alert("API request failed. Check console (F12).");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
+```

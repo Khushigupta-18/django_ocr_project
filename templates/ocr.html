@@ -1,0 +1,167 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Document OCR System</title>
+
+<style>
+body{
+    font-family: Arial;
+    margin:40px;
+}
+
+input,select,button,textarea{
+    padding:8px;
+    margin:5px;
+    width:300px;
+}
+
+textarea{
+    width:600px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Document OCR System</h2>
+
+<label>Select Document Type</label><br>
+
+<select id="ocr_type">
+<option value="api/pan/upload/">PAN Card</option>
+<option value="api/aadhar/upload/">Aadhaar Card</option>
+<option value="api/passport/upload/">Passport</option>
+</select>
+
+<br><br>
+
+<label>Upload Image</label><br>
+<input type="file" id="image">
+
+<br><br>
+
+<button onclick="uploadOCR()">Extract Details</button>
+
+<hr>
+
+<h3>Extracted Details</h3>
+
+Document Number<br>
+<input type="text" id="doc_number"><br>
+
+Full Name<br>
+<input type="text" id="name"><br>
+
+Father Name<br>
+<input type="text" id="father_name"><br>
+
+DOB<br>
+<input type="text" id="dob"><br>
+
+Gender<br>
+<input type="text" id="gender"><br>
+
+Nationality<br>
+<input type="text" id="nationality"><br>
+
+Expiry Date<br>
+<input type="text" id="expiry"><br>
+
+Raw OCR Text<br>
+<textarea id="raw_text" rows="6"></textarea>
+
+<h3>Result Summary</h3>
+
+<h4 id="api_used"></h4>
+<pre id="result"></pre>
+
+<script>
+
+async function uploadOCR(){
+
+    const fileInput = document.getElementById("image");
+    const file = fileInput.files[0];
+
+    if(!file){
+        alert("Please upload an image");
+        return;
+    }
+
+    const api = document.getElementById("ocr_type").value;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try{
+
+        const response = await fetch("http://127.0.0.1:8000/" + api,{
+            method:"POST",
+            body:formData
+        });
+
+        const data = await response.json();
+
+        console.log("OCR RESPONSE:", data);
+
+        /* -------- Fill Fields Automatically -------- */
+
+        document.getElementById("doc_number").value =
+            data.pan_number ||
+            data.aadhar_number ||
+            data.passport_number ||
+            "";
+
+        document.getElementById("name").value =
+            data.name ||
+            data.full_name ||
+            "";
+
+        document.getElementById("father_name").value =
+            data.father_name || "";
+
+        document.getElementById("dob").value =
+            data.dob ||
+            data.date_of_birth ||
+            "";
+
+        document.getElementById("gender").value =
+            data.gender || "";
+
+        document.getElementById("nationality").value =
+            data.nationality || "";
+
+        document.getElementById("expiry").value =
+            data.expiry ||
+            data.expiry_date ||
+            "";
+
+        document.getElementById("raw_text").value =
+            data.raw_text ||
+            data.extracted_text ||
+            "";
+
+        /* -------- Result Summary -------- */
+
+        document.getElementById("api_used").innerText =
+            "API Endpoint Used: /" + api;
+
+        document.getElementById("result").innerText =
+            JSON.stringify(data, null, 2);
+
+    }
+    catch(error){
+
+        console.error("OCR ERROR:", error);
+        alert("OCR API failed. Check console.");
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
+```

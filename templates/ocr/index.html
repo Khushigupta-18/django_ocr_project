@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Smart OCR Dashboard</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<script src="{% static 'js/ocr.js' %}"></script>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h1>Smart OCR API</h1>
+    <p>Upload documents and extract details instantly</p>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="main">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+
+        <div class="card">
+            <label>Select Document Type</label>
+            <select id="ocr_type">
+                <option value="api/pan/upload/">PAN Card</option>
+                <option value="api/aadhar/upload/">Aadhaar Card</option>
+                <option value="api/passport/upload/">Passport</option>
+            </select>
+
+            <label>Upload Image</label>
+            <input type="file" id="image" onchange="previewImage()">
+
+            <button onclick="uploadOCR()">Extract Details</button>
+
+            <!-- LOADER -->
+            <div id="loader">Processing...</div>
+        </div>
+
+        <!-- IMAGE PREVIEW -->
+        <div class="card">
+            <h3>Uploaded Image</h3>
+            <img id="preview" src="">
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+
+        <div class="card">
+            <h3>Extracted Details</h3>
+
+            <label>Document Number</label>
+            <input type="text" id="doc_number">
+
+            <label>Full Name</label>
+            <input type="text" id="name">
+
+            <label>Father Name</label>
+            <input type="text" id="father_name">
+
+            <label>DOB</label>
+            <input type="text" id="dob">
+
+            <label>Gender</label>
+            <input type="text" id="gender">
+
+            <label>Nationality</label>
+            <input type="text" id="nationality">
+
+            <label>Expiry Date</label>
+            <input type="text" id="expiry">
+        </div>
+
+        <div class="card">
+            <h3>Confidence Score</h3>
+            <div class="progress">
+                <div id="confidence_bar"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Raw OCR Text</h3>
+            <textarea id="raw_text"></textarea>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+body{
+    font-family: Arial;
+    margin:0;
+    background:#f5f6fa;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    padding:20px;
+    background:#2f3640;
+    color:white;
+}
+
+/* MAIN LAYOUT */
+.main{
+    display:flex;
+    gap:20px;
+    padding:20px;
+}
+
+/* PANELS */
+.left-panel{
+    width:35%;
+}
+
+.right-panel{
+    width:65%;
+}
+
+/* CARD UI */
+.card{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* INPUTS */
+input, select, textarea{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    margin-bottom:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#4CAF50;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#45a049;
+}
+
+/* IMAGE */
+#preview{
+    width:100%;
+    border-radius:10px;
+}
+
+/* LOADER */
+#loader{
+    display:none;
+    text-align:center;
+    margin-top:10px;
+}
+
+/* PROGRESS BAR */
+.progress{
+    background:#eee;
+    border-radius:5px;
+    overflow:hidden;
+    height:20px;
+}
+
+#confidence_bar{
+    height:100%;
+    background:#4CAF50;
+    text-align:center;
+    color:white;
+}
